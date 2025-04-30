@@ -9,10 +9,15 @@ interface Props {
 }
 const Stepper = (props: Props) => {
 	return (
-		<div className={cn("flex items-center justify-around", props.className)}>
+		<div
+			className={cn("flex items-center justify-around p-3", props.className)}
+		>
 			{props.items.map((item, index) => (
 				<>
-					<div key={item.label} className="flex flex-col items-center">
+					<div
+						key={`${item.label}-step`}
+						className="flex flex-col items-center"
+					>
 						<div
 							className={cn(
 								"rounded-full w-6 h-6 flex justify-center items-center transition",
