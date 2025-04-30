@@ -43,7 +43,7 @@ const Pictures = (props: Props) => {
 			</div>
 			<div className="flex justify-center col-span-2 gap-3">
 				<Button
-					onClick={props.previous}
+					onPress={props.previous}
 					startContent={<ChevronLeftIcon className="w-6" />}
 					color="primary"
 					className="w-36"
@@ -54,7 +54,7 @@ const Pictures = (props: Props) => {
 					endContent={<ChevronRightIcon className="w-6" />}
 					color="primary"
 					className="w-36"
-					onClick={handleNext}
+					onPress={handleNext}
 				>
 					Next
 				</Button>

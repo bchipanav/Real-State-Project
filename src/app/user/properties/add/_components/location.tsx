@@ -1,6 +1,8 @@
 import React from "react";
 import { Button, Card, cn, Input, Textarea } from "@heroui/react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/16/solid";
+import { useFormContext } from "react-hook-form";
+import type { AddPropertyInputType } from "./AddPropertyForm";
 interface Props {
 	className?: string;
 	previous: () => void;
@@ -8,7 +10,23 @@ interface Props {
 }
 
 const Location = (props: Props) => {
-	const handleNext = () => props.next();
+	const {
+		register,
+		formState: { errors },
+		trigger,
+	} = useFormContext<AddPropertyInputType>();
+	const handleNext = async () => {
+		if (
+			await trigger([
+				"location.streetAddress",
+				"location.city",
+				"location.region",
+				"location.state",
+				"location.zip",
+			])
+		)
+			props.next();
+	};
 	return (
 		<Card
 			className={cn(
@@ -16,15 +34,47 @@ const Location = (props: Props) => {
 				props.className,
 			)}
 		>
-			<Input label="Street Address" />
-			<Input label="ZIP/ Postal Code" />
-			<Input label="City" />
-			<Input label="State" />
-			<Input label="Region/Neighborhood" className="col-span-2" />
-			<Textarea label="Landmarks" className="col-span-2" />
+			<Input
+				{...register("location.streetAddress")}
+				errorMessage={errors.location?.streetAddress?.message}
+				isInvalid={!!errors.location?.streetAddress}
+				label="Street Address"
+			/>
+			<Input
+				{...register("location.zip")}
+				errorMessage={errors.location?.zip?.message}
+				isInvalid={!!errors.location?.zip}
+				label="ZIP/ Postal Code"
+			/>
+			<Input
+				{...register("location.city")}
+				errorMessage={errors.location?.city?.message}
+				isInvalid={!!errors.location?.city}
+				label="City"
+			/>
+			<Input
+				{...register("location.state")}
+				errorMessage={errors.location?.state?.message}
+				isInvalid={!!errors.location?.state}
+				label="State"
+			/>
+			<Input
+				{...register("location.region")}
+				errorMessage={errors.location?.region?.message}
+				isInvalid={!!errors.location?.region}
+				label="Region/Neighborhood"
+				className="col-span-2"
+			/>
+			<Textarea
+				{...register("location.landmark")}
+				errorMessage={errors.location?.landmark?.message}
+				isInvalid={!!errors.location?.landmark}
+				label="Landmarks"
+				className="col-span-2"
+			/>
 			<div className="flex justify-center col-span-2 gap-3">
 				<Button
-					onClick={props.previous}
+					onPress={props.previous}
 					startContent={<ChevronLeftIcon className="w-6" />}
 					color="primary"
 					className="w-36"
@@ -35,7 +85,7 @@ const Location = (props: Props) => {
 					endContent={<ChevronRightIcon className="w-6" />}
 					color="primary"
 					className="w-36"
-					onClick={handleNext}
+					onPress={handleNext}
 				>
 					Next
 				</Button>

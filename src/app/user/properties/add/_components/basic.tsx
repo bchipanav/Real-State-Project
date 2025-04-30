@@ -10,6 +10,8 @@ import {
 	Textarea,
 } from "@heroui/react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/16/solid";
+import { useFormContext } from "react-hook-form";
+import type { AddPropertyInputType } from "./AddPropertyForm";
 interface Props {
 	className?: string;
 	types: PropertyType[];
@@ -18,7 +20,15 @@ interface Props {
 }
 
 const Basic = (props: Props) => {
-	const handleNext = () => props.next();
+	const {
+		register,
+		formState: { errors },
+		trigger,
+	} = useFormContext<AddPropertyInputType>();
+	const handleNext = async () => {
+		if (await trigger(["name", "description", "typeId", "statusId", "price"]))
+			props.next();
+	};
 	return (
 		<Card
 			className={cn(
@@ -26,23 +36,52 @@ const Basic = (props: Props) => {
 				props.className,
 			)}
 		>
-			<Input label="Name" className="md:col-span-3" />
-			<Textarea label="Description" className="md:col-span-3" />
-			<Select label="Type" selectionMode="single">
+			<Input
+				{...register("name")}
+				errorMessage={errors.name?.message}
+				isInvalid={!!errors.name}
+				label="Name"
+				className="md:col-span-3"
+			/>
+			<Textarea
+				{...register("description")}
+				errorMessage={errors.description?.message}
+				isInvalid={!!errors.description}
+				label="Description"
+				className="md:col-span-3"
+			/>
+			<Select
+				{...register("typeId")}
+				errorMessage={errors.typeId?.message}
+				isInvalid={!!errors.typeId}
+				label="Type"
+				selectionMode="single"
+			>
 				{props.types.map((item) => (
 					<SelectItem key={item.id} data-value={item.id}>
 						{item.value}
 					</SelectItem>
 				))}
 			</Select>
-			<Select label="Status" selectionMode="single">
+			<Select
+				{...register("statusId")}
+				errorMessage={errors.statusId?.message}
+				isInvalid={!!errors.statusId}
+				label="Status"
+				selectionMode="single"
+			>
 				{props.statuses.map((item) => (
 					<SelectItem key={item.id} data-value={item.id}>
 						{item.value}
 					</SelectItem>
 				))}
 			</Select>
-			<Input label="Price" />
+			<Input
+				{...register("price")}
+				errorMessage={errors.price?.message}
+				isInvalid={!!errors.price}
+				label="Price"
+			/>
 			<div className="flex justify-center col-span-3 gap-3">
 				<Button
 					isDisabled
@@ -56,7 +95,7 @@ const Basic = (props: Props) => {
 					endContent={<ChevronRightIcon className="w-6" />}
 					color="primary"
 					className="w-36"
-					onClick={handleNext}
+					onPress={handleNext}
 				>
 					Next
 				</Button>
