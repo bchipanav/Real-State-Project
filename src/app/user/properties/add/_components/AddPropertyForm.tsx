@@ -13,6 +13,10 @@ import { AddPropertyFormSchema } from "@/lib/zodSchema";
 import type { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { uploadImages } from "@/lib/upload";
+import { saveProperty } from "@/lib/actions/property";
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const steps = [
 	{ label: "Basic" },
@@ -28,14 +32,24 @@ interface Props {
 
 export type AddPropertyInputType = z.infer<typeof AddPropertyFormSchema>;
 const AddPropertyForm = (props: Props) => {
+	const router = useRouter();
 	const methods = useForm<AddPropertyInputType>({
 		resolver: zodResolver(AddPropertyFormSchema),
 	});
 	const [images, setImages] = useState<File[]>([]);
 	const [step, setStep] = useState(0);
+	const { user } = useKindeBrowserClient();
 	const onSubmit: SubmitHandler<AddPropertyInputType> = async (data) => {
 		const imageUrls = await uploadImages(images);
 		console.log({ data, imageUrls });
+		try {
+			// biome-ignore lint/style/noNonNullAssertion: <explanation>
+			await saveProperty(data, imageUrls, user?.id!);
+			toast.success("Property Added");
+			router.push("/user/properties");
+		} catch (error) {
+			console.error({ error });
+		}
 	};
 	return (
 		<div>

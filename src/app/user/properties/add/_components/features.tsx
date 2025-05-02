@@ -75,7 +75,7 @@ const Features = (props: Props) => {
 
 				<Controller
 					control={control}
-					name="propertyFeature.hasGarden"
+					name="propertyFeature.hasGardenYard"
 					render={({ field }) => (
 						<Checkbox
 							onChange={field.onChange}
