@@ -1,5 +1,6 @@
 import React from "react";
-import { Button, Card, Checkbox, cn, Input } from "@heroui/react";
+import { Button, Card, cn, Input } from "@heroui/react";
+import { Checkbox } from "@heroui/checkbox";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/16/solid";
 import { Controller, useFormContext } from "react-hook-form";
 import type { AddPropertyInputType } from "./AddPropertyForm";
@@ -14,6 +15,7 @@ const Features = (props: Props) => {
 		register,
 		control,
 		trigger,
+		getValues,
 		formState: { errors },
 	} = useFormContext<AddPropertyInputType>();
 	const handleNext = async () => {
@@ -35,28 +37,40 @@ const Features = (props: Props) => {
 			)}
 		>
 			<Input
-				{...register("propertyFeature.bedrooms")}
+				{...register("propertyFeature.bedrooms", {
+					setValueAs: (v: any) => v.toString(),
+				})}
 				errorMessage={errors.propertyFeature?.bedrooms?.message}
 				isInvalid={!!errors.propertyFeature?.bedrooms}
 				label="Bedrooms"
+				defaultValue={getValues().propertyFeature.bedrooms.toString()}
 			/>
 			<Input
-				{...register("propertyFeature.bathrooms")}
+				{...register("propertyFeature.bathrooms", {
+					setValueAs: (v: any) => v.toString(),
+				})}
 				errorMessage={errors.propertyFeature?.bathrooms?.message}
 				isInvalid={!!errors.propertyFeature?.bathrooms}
 				label="Bathrooms"
+				defaultValue={getValues().propertyFeature.bathrooms.toString()}
 			/>
 			<Input
-				{...register("propertyFeature.parkingSpots")}
+				{...register("propertyFeature.parkingSpots", {
+					setValueAs: (v: any) => v.toString(),
+				})}
 				errorMessage={errors.propertyFeature?.parkingSpots?.message}
 				isInvalid={!!errors.propertyFeature?.parkingSpots}
 				label="Parking Spots"
+				defaultValue={getValues().propertyFeature.parkingSpots.toString()}
 			/>
 			<Input
-				{...register("propertyFeature.area")}
+				{...register("propertyFeature.area", {
+					setValueAs: (v: any) => v.toString(),
+				})}
 				errorMessage={errors.propertyFeature?.area?.message}
 				isInvalid={!!errors.propertyFeature?.area}
 				label="Area"
+				defaultValue={getValues().propertyFeature.area.toString()}
 			/>
 			<div className="flex items-center justify-between">
 				<Controller
@@ -66,7 +80,7 @@ const Features = (props: Props) => {
 						<Checkbox
 							onChange={field.onChange}
 							onBlur={field.onBlur}
-							checked={field.value ?? false}
+							isSelected={field.value ?? false}
 						>
 							Has Swimming Pool
 						</Checkbox>
@@ -80,7 +94,7 @@ const Features = (props: Props) => {
 						<Checkbox
 							onChange={field.onChange}
 							onBlur={field.onBlur}
-							checked={field.value ?? false}
+							isSelected={field.value ?? false}
 						>
 							Has Gard/Yard
 						</Checkbox>
@@ -94,7 +108,7 @@ const Features = (props: Props) => {
 						<Checkbox
 							onChange={field.onChange}
 							onBlur={field.onBlur}
-							checked={field.value ?? false}
+							isSelected={field.value ?? false}
 						>
 							Has Balcony/Patio
 						</Checkbox>

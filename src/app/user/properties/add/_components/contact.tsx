@@ -11,6 +11,7 @@ interface Props {
 const Contact = (props: Props) => {
 	const {
 		register,
+		getValues,
 		formState: { errors },
 	} = useFormContext<AddPropertyInputType>();
 	return (
@@ -25,18 +26,21 @@ const Contact = (props: Props) => {
 				errorMessage={errors.contact?.name?.message}
 				isInvalid={!!errors.contact?.name}
 				label="Contact Name"
+				defaultValue={getValues("contact.name")}
 			/>
 			<Input
 				{...register("contact.phone")}
 				errorMessage={errors.contact?.phone?.message}
 				isInvalid={!!errors.contact?.phone}
 				label="Phone"
+				defaultValue={getValues("contact.phone")}
 			/>
 			<Input
 				{...register("contact.email")}
 				errorMessage={errors.contact?.email?.message}
 				isInvalid={!!errors.contact?.email}
 				label="E-mail"
+				defaultValue={getValues("contact.email")}
 			/>
 			<div className="flex justify-center col-span-3 gap-3">
 				<Button

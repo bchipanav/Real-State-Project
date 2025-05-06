@@ -4,6 +4,7 @@ import { Button, Card, cn } from "@heroui/react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/16/solid";
 import FileInput from "@/app/components/fileUpload";
 import PictureCard from "./pictureCard";
+import type { PropertyImage } from "@prisma/client";
 
 interface Props {
 	className?: string;
@@ -11,6 +12,8 @@ interface Props {
 	next: () => void;
 	images: File[];
 	setImages: (images: File[]) => void;
+	savedImagesUrl?: PropertyImage[];
+	setSavedImagesUrl?: (PropertyImages: PropertyImage[]) => void;
 }
 
 const Pictures = (props: Props) => {
@@ -24,18 +27,18 @@ const Pictures = (props: Props) => {
 				}
 			/>
 			<div className="flex gap-3 flex-wrap">
-				{props.images.map((image, index) => {
-					const srcUrl = URL.createObjectURL(image);
+				{props.savedImagesUrl?.map((image, index) => {
 					return (
 						<PictureCard
-							key={srcUrl}
-							src={srcUrl}
+							key={image.id}
+							src={image.url}
 							index={index}
 							onDelete={(i) =>
-								props.setImages([
-									...props.images.slice(0, i),
-									...props.images.slice(i + 1),
-								])
+								props.setSavedImagesUrl?.(
+									(props.savedImagesUrl || []).filter(
+										(img) => img.id !== image.id,
+									),
+								)
 							}
 						/>
 					);
