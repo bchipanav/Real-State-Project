@@ -57,7 +57,7 @@ const PropertiesTable = ({ properties, totalPages, currentPage }: Props) => {
 										</Link>
 									</Tooltip>
 									<Tooltip content="Delete Property" color="danger">
-										<Link href={`/property/${item.id}/delete`}>
+										<Link href={`/user/properties/${item.id}/delete`}>
 											<TrashIcon className="w-5 text-red-500" />
 										</Link>
 									</Tooltip>
