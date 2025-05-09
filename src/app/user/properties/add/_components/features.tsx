@@ -43,7 +43,11 @@ const Features = (props: Props) => {
 				errorMessage={errors.propertyFeature?.bedrooms?.message}
 				isInvalid={!!errors.propertyFeature?.bedrooms}
 				label="Bedrooms"
-				defaultValue={getValues().propertyFeature.bedrooms.toString()}
+				defaultValue={
+					getValues().propertyFeature
+						? getValues().propertyFeature.bedrooms.toString()
+						: undefined
+				}
 			/>
 			<Input
 				{...register("propertyFeature.bathrooms", {
@@ -52,7 +56,11 @@ const Features = (props: Props) => {
 				errorMessage={errors.propertyFeature?.bathrooms?.message}
 				isInvalid={!!errors.propertyFeature?.bathrooms}
 				label="Bathrooms"
-				defaultValue={getValues().propertyFeature.bathrooms.toString()}
+				defaultValue={
+					getValues().propertyFeature
+						? getValues().propertyFeature.bathrooms.toString()
+						: undefined
+				}
 			/>
 			<Input
 				{...register("propertyFeature.parkingSpots", {
@@ -61,7 +69,11 @@ const Features = (props: Props) => {
 				errorMessage={errors.propertyFeature?.parkingSpots?.message}
 				isInvalid={!!errors.propertyFeature?.parkingSpots}
 				label="Parking Spots"
-				defaultValue={getValues().propertyFeature.parkingSpots.toString()}
+				defaultValue={
+					getValues().propertyFeature
+						? getValues().propertyFeature.parkingSpots.toString()
+						: undefined
+				}
 			/>
 			<Input
 				{...register("propertyFeature.area", {
@@ -70,7 +82,11 @@ const Features = (props: Props) => {
 				errorMessage={errors.propertyFeature?.area?.message}
 				isInvalid={!!errors.propertyFeature?.area}
 				label="Area"
-				defaultValue={getValues().propertyFeature.area.toString()}
+				defaultValue={
+					getValues().propertyFeature
+						? getValues().propertyFeature.area.toString()
+						: undefined
+				}
 			/>
 			<div className="flex items-center justify-between">
 				<Controller

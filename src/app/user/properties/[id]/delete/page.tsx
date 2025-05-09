@@ -4,6 +4,7 @@ import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { deletePropertyAction } from "./action";
+import SubmitButton from "@/app/components/SubmitButton";
 interface Props {
 	params: { id: string };
 }
@@ -34,9 +35,9 @@ async function DeletePropertyPage({ params }: Props) {
 				<Link href={"/user/properties"}>
 					<Button>Cancel</Button>
 				</Link>
-				<Button type="submit" color="danger" variant="light">
+				<SubmitButton type="submit" color="danger" variant="light">
 					Delete
-				</Button>
+				</SubmitButton>
 			</div>
 		</form>
 	);
