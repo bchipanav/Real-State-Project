@@ -6,10 +6,18 @@ import React, { type ReactNode } from "react";
 import SectionTitle from "./_components/sectionTitle";
 import { Avatar } from "@heroui/avatar";
 import UploadAvatar from "./_components/uploadAvatar";
+import Link from "next/link";
+import { Button } from "@heroui/button";
+import prisma from "@/lib/prisma";
 const ProfilePage = async () => {
 	const { getUser } = await getKindeServerSession();
 	const user = await getUser();
 	const dbUser = await getUserById(user ? user.id : "");
+	const userSubcription = await prisma.subscriptions.findFirst({
+		where: { userId: dbUser?.id },
+		include: { plan: true },
+		orderBy: { createdAt: "desc" },
+	});
 	return (
 		<div>
 			<PageTitle title="My Profile" linkCaption="Back To Home Page" href="/" />
@@ -36,6 +44,26 @@ const ProfilePage = async () => {
 					/>
 					<Attribute title="Properties posted" value={1} />
 				</div>
+			</Card>
+			<Card className="m-4 p-4 flex flex-col gap-5">
+				<SectionTitle title="Suscription Details" />
+				{userSubcription ? (
+					<div>
+						<Attribute title="Plan" value={userSubcription.plan.name} />
+						<Attribute title="Price" value={userSubcription.plan.price} />
+						<Attribute
+							title="Purchased On"
+							value={userSubcription.createdAt.toLocaleDateString()}
+						/>
+					</div>
+				) : (
+					<div className="flex flex-col items-center">
+						<p className="text-center">No Subscription Found!</p>
+					</div>
+				)}
+				<Link href={"user/subscription"}>
+					<Button color="secondary">Purchase Your Suscription</Button>
+				</Link>
 			</Card>
 		</div>
 	);
